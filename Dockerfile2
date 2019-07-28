@@ -1,0 +1,8 @@
+FROM recognition
+RUN apt install python3-pil -y
+RUN apt install graphviz -y
+RUN pip3 install pydot
+WORKDIR /src
+VOLUME /src
+ENTRYPOINT ["python3"]
+CMD []
