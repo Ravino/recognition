@@ -2,10 +2,16 @@ from keras.datasets import mnist
 from keras.models import Model
 from keras.layers import Input, Dense
 from keras.utils import np_utils
+from keras.optimizers import SGD
+from keras.utils import plot_model
+
+
+import numpy as np
 
 
 
 
+init_lr = 0.01
 batch_size = 128
 num_epochs = 20
 hidden_size = 512
@@ -47,14 +53,21 @@ hidden_1 = Dense(hidden_size, activation='relu')(inp)
 
 
 hidden_2 = Dense(hidden_size, activation='relu')(hidden_1)
+
+
 out = Dense(num_classes, activation='softmax')(hidden_2)
 
 
 
 
 model = Model(input=inp, output=out)
+
+
+opt = SGD(lr=init_lr)
+
+
 model.compile(loss='categorical_crossentropy',
-              optimizer='adam',
+              optimizer=opt,
               metrics=['accuracy'])
 
 
@@ -68,3 +81,11 @@ model.fit(X_train, Y_train,
 
 
 model.evaluate(X_test, Y_test, verbose=1)
+
+
+model.save('my_model.h5')
+
+
+
+
+plot_model(model, to_file='model.png', show_shapes=True)
